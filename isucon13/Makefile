@@ -17,9 +17,7 @@ ALPSORT=sum
 ALPM="/api/organizer/players/[0-9a-zA-Z]+/disqualified,/api/organizer/competition/[0-9a-zA-Z]+/finish,/api/organizer/competition/[0-9a-zA-Z]+/score,/api/player/player/[0-9a-zA-Z]+,/api/player/competition/[0-9a-zA-Z]+/ranking"
 OUTFORMAT=count,method,uri,min,max,sum,avg,p99
 
-CHANNEL:= notify-logs
-SLACKCAT:=slackcat --tee --channel $(CHANNEL)
-SLACKRAW:=slackcat --channel $(CHANNEL)
+CHANNEL:=C063N2J4W65
 
 # デプロイ
 # make deploy BRANCH=<ブランチ名>でブランチを指定してデプロイ
@@ -114,6 +112,11 @@ slow-off:
 .PHONY: sql
 sql:
 	sudo $(MYSQL_CMD)
+
+# Slack通知
+.PHONY: slack
+slack:
+	curl -F file=@$(filepath) -F channels=$(CHANNEL) -H "$(shell cat headers.txt)" https://slack.com/api/files.upload
 
 # セットアップ
 .PHONY: init
