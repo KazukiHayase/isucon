@@ -18,6 +18,7 @@ ALPM="/api/organizer/players/[0-9a-zA-Z]+/disqualified,/api/organizer/competitio
 OUTFORMAT=count,method,uri,min,max,sum,avg,p99
 
 CHANNEL:=C063N2J4W65
+TMP_FILE:=tmp.txt
 
 # デプロイ
 # make deploy BRANCH=<ブランチ名>でブランチを指定してデプロイ
@@ -84,12 +85,14 @@ notify: alp slow pprof
 ## alp
 .PHONY: alp
 alp:
-	sudo alp ltsv --file=$(NGX_LOG) --sort $(ALPSORT) --reverse -o $(OUTFORMAT) -m $(ALPM) | $(SLACKCAT)
+	sudo alp ltsv --file=$(NGX_LOG) --sort $(ALPSORT) --reverse -o $(OUTFORMAT) -m $(ALPM) > $(TMP_FILE)
+	make slack filename=$(TMP_FILE)
 
 ## slow-query
 .PHONY: slow
 slow:
-	sudo mysqldumpslow -s t $(MYSQL_LOG) | head -n 20 | $(SLACKCAT)
+	sudo mysqldumpslow -s t $(MYSQL_LOG) | head -n 20 > $(TMP_FILE)
+	make slack filename=$(TMP_FILE)
 
 ## pprof
 .PHONY: pprof-up
@@ -116,7 +119,7 @@ sql:
 # Slack通知
 .PHONY: slack
 slack:
-	curl -F file=@$(filepath) -F channels=$(CHANNEL) -H "$(shell cat headers.txt)" https://slack.com/api/files.upload
+	curl -F file=@$(filename) -F channels=$(CHANNEL) -H "$(shell cat headers.txt)" https://slack.com/api/files.upload
 
 # セットアップ
 .PHONY: init
