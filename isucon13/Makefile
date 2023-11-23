@@ -126,7 +126,3 @@ init:
 	unzip alp_linux_amd64.zip
 	sudo install ./alp /usr/local/bin
 	rm alp alp_linux_amd64.zip
-	curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-linux-amd64
-	sudo mv slackcat /usr/local/bin/
-	sudo chmod +x /usr/local/bin/slackcat
-	slackcat --configure
