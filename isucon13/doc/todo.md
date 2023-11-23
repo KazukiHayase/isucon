@@ -7,8 +7,9 @@
 5. 各インスタンスでnginxのシンボリック作成 + push
 
 ```bash
-cp /etc/nginx/nginx.conf /home/isucon/<app_name>/webapp/nginx/nginx_1.conf
-sudo ln -sb /home/isucon/<app_name>/webapp/nginx/nginx_1.conf /etc/nginx/nginx.conf
+mkdir nginx
+cp /etc/nginx/nginx.conf /home/isucon/webapp/nginx/nginx_1.conf
+sudo ln -sb /home/isucon/webapp/nginx/nginx_1.conf /etc/nginx/nginx.conf
 ```
 5. nginx のログ出力設定
 
