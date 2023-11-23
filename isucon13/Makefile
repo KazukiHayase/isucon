@@ -32,7 +32,6 @@ init:
 	rm alp alp_linux_amd64.zip
 
 # デプロイ
-# make deploy BRANCH=<ブランチ名>でブランチを指定してデプロイ
 .PHONY: deploy1
 deploy1:
 	make before
@@ -76,8 +75,8 @@ before:
 
 .PHONY: checkout
 checkout:
-	git fetch && \
-	git reset --hard origin/$(BRANCH)
+	git chekout $(BRANCH)
+	git pull origin $(BRANCH)
 
 build:
 	cd $(BUILD_DIR); \
