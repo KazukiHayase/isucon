@@ -1,4 +1,4 @@
-# インスタンスを立ち上げたらやること
+# 最初にやること
 
 1. sshの設定
 2. Makefile作成
@@ -10,8 +10,13 @@
 mkdir nginx
 cp /etc/nginx/nginx.conf /home/isucon/webapp/nginx/nginx_1.conf
 sudo ln -sb /home/isucon/webapp/nginx/nginx_1.conf /etc/nginx/nginx.conf
+
+mkdir mysql
+cp /etc/mysql/mysql.conf /home/isucon/webapp/mysql/mysql_1.conf
+sudo ln -sb /home/isucon/webapp/mysql/mysql_1.conf /etc/mysql/mysql.conf
 ```
-5. nginx のログ出力設定
+
+6. nginx のログ出力設定
 
 ```
 log_format ltsv "time:$time_local"
@@ -33,4 +38,5 @@ log_format ltsv "time:$time_local"
 access_log  /tmp/access.log  ltsv;
 ```
 
-6. デプロイして初回ベンチ実行
+7. `headers.txt`作成
+8. デプロイして初回ベンチ実行
