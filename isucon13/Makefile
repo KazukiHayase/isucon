@@ -20,6 +20,15 @@ OUTFORMAT=count,method,uri,min,max,sum,avg,p99
 CHANNEL:=C063N2J4W65
 TMP_FILE:=tmp.txt
 
+# セットアップ
+.PHONY: init
+init:
+	sudo apt install -y percona-toolkit dstat git unzip snapd gh graphviz
+	wget https://github.com/tkuchiki/alp/releases/download/v1.0.10/alp_linux_amd64.zip
+	unzip alp_linux_amd64.zip
+	sudo install ./alp /usr/local/bin
+	rm alp alp_linux_amd64.zip
+
 # デプロイ
 # make deploy BRANCH=<ブランチ名>でブランチを指定してデプロイ
 .PHONY: deploy1
@@ -111,12 +120,3 @@ sql:
 .PHONY: slack
 slack:
 	curl -F file=@$(filename) -F channels=$(CHANNEL) -H "$(shell cat headers.txt)" https://slack.com/api/files.upload
-
-# セットアップ
-.PHONY: init
-init:
-	sudo apt install -y percona-toolkit dstat git unzip snapd gh graphviz
-	wget https://github.com/tkuchiki/alp/releases/download/v1.0.10/alp_linux_amd64.zip
-	unzip alp_linux_amd64.zip
-	sudo install ./alp /usr/local/bin
-	rm alp alp_linux_amd64.zip
