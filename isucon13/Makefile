@@ -13,6 +13,8 @@ DB_PASS:=isucon
 DB_NAME:=isuports
 MYSQL_CMD:=mysql -h$(DB_HOST) -P$(DB_PORT) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME)
 
+SERVICE_NAME:=isuports
+
 ALPSORT=sum
 ALPM="/api/organizer/players/[0-9a-zA-Z]+/disqualified,/api/organizer/competition/[0-9a-zA-Z]+/finish,/api/organizer/competition/[0-9a-zA-Z]+/score,/api/player/player/[0-9a-zA-Z]+,/api/player/competition/[0-9a-zA-Z]+/ranking"
 OUTFORMAT=count,method,uri,min,max,sum,avg,p99
@@ -37,7 +39,7 @@ deploy1:
 	make checkout
 	make build
 	sudo systemctl restart nginx
-	sudo systemctl restart isuports
+	sudo systemctl restart $(SERVICE_NAME)
 	sudo systemctl disable mysql
 	sudo systemctl stop mysql
 
@@ -47,8 +49,8 @@ deploy2:
 	make checkout
 	sudo systemctl disable nginx
 	sudo systemctl stop nginx
-	sudo systemctl disable isuports
-	sudo systemctl stop isuports
+	sudo systemctl disable $(SERVICE_NAME)
+	sudo systemctl stop $(SERVICE_NAME)
 	sudo systemctl restart mysql
 
 .PHONY: deploy3
@@ -57,8 +59,8 @@ deploy3:
 	make checkout
 	sudo systemctl disable nginx
 	sudo systemctl stop nginx
-	sudo systemctl disable isuports
-	sudo systemctl stop isuports
+	sudo systemctl disable $(SERVICE_NAME)
+	sudo systemctl stop $(SERVICE_NAME)
 	sudo systemctl restart mysql
 
 .PHONY: before
@@ -85,11 +87,11 @@ build:
 restart:
 	sudo systemctl restart nginx
 	sudo systemctl restart mysql
-	sudo systemctl restart isuports
+	sudo systemctl restart $(SERVICE_NAME)
 
 # モニタリング
 .PHONY: notify
-notify: alp slow pprof
+notify: alp slow
 
 ## alp
 .PHONY: alp
