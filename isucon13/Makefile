@@ -21,10 +21,12 @@ OUTFORMAT=count,method,uri,min,max,sum,avg,p99
 
 CHANNEL:=C063N2J4W65
 TMP_FILE:=tmp.txt
+PUBLIC_KEYS:=public_keys.txt
 
 # セットアップ
 .PHONY: init
-init:
+init:	
+	make add-ssh-setting
 	type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 		&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -127,3 +129,9 @@ sql:
 .PHONY: slack
 slack:
 	curl -F file=@$(filename) -F channels=$(CHANNEL) -H "$(shell cat headers.txt)" https://slack.com/api/files.upload
+
+.PHONY: add-ssh-setting
+add-ssh-setting:
+	cat ./$(PUBLIC_KEYS) >> /home/ubuntu/.ssh/authorized_keys
+	cat ./$(PUBLIC_KEYS) >> /home/isucon/.ssh/authorized_keys 
+	cat ./$(PUBLIC_KEYS) >> /home/isucon-admin/.ssh/authorized_keys
