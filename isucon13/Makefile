@@ -94,15 +94,6 @@ slow:
 	sudo mysqldumpslow -s t $(MYSQL_LOG) | head -n 20 > $(TMP_FILE)
 	make slack filename=$(TMP_FILE)
 
-## pprof
-.PHONY: pprof-up
-pprof-up:
-	go tool pprof -png -output pprof.png http://localhost:6060/debug/pprof/profile?seconds=60
-
-.PHONY: pprof
-pprof:
-	$(SLACKRAW) -n pprof.png ./pprof.png
-
 # DB
 .PHONY: slow-on
 slow-on:
