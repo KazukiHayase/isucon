@@ -1,7 +1,7 @@
 # インスタンスを立ち上げたらやること
 
-1. Makefile作成
-2. Makefileと同階層にpublic_keys.txtファイル追加　中身は公開鍵たちにする。
+1. sshの設定
+2. Makefile作成
 3. `make init`
 4. 必要なファイル群をadd+push
 5. 各インスタンスでnginxのシンボリック作成 + push
