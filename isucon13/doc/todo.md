@@ -1,5 +1,6 @@
 # 最初にやること
 
+0. ベンチ実行
 1. sshの設定
 2. Makefile作成
 3. `make init`
@@ -39,4 +40,4 @@ access_log  /tmp/access.log  ltsv;
 ```
 
 7. `headers.txt`作成
-8. デプロイして初回ベンチ実行
+8. tblsでer図作成
